@@ -2,7 +2,7 @@ import express from "express";
 import mysql from "mysql2"; // Update import to mysql2
 import bodyParser from "body-parser";
 import cors from "cors";
-import bcrypt from "bcrypt"; // Add bcrypt for password hashing
+import bcrypt from "bcryptjs";
 import dotenv from "dotenv"; // Import dotenv for managing environment variables
 
 dotenv.config(); // Load environment variables from .env file
