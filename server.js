@@ -3,12 +3,16 @@ import mysql from "mysql2"; // Update import to mysql2
 import bodyParser from "body-parser";
 import cors from "cors";
 import bcrypt from "bcrypt"; // Add bcrypt for password hashing
+import dotenv from "dotenv"; // Import dotenv for managing environment variables
+
+dotenv.config(); // Load environment variables from .env file
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(cors());
+
 export const formatDate = (dateString) => {
   const date = new Date(dateString);
   const year = date.getFullYear();
@@ -18,15 +22,15 @@ export const formatDate = (dateString) => {
 };
 
 // Replace with your Railway MySQL URL
-const mysqlUrl = "mysql://root:gLRUVHDjCIgxSGpZhuJVOnNnEmxmpJLq@monorail.proxy.rlwy.net:55681/railway";
+const mysqlUrl = process.env.MYSQL_URL; // Retrieve MySQL URL from environment variables
 
 const pool = mysql.createPool({
   connectionLimit: 10,
-  host: "monorail.proxy.rlwy.net",
-  user: "root",
-  password: "gLRUVHDjCIgxSGpZhuJVOnNnEmxmpJLq",
-  database: "railway",
-  port: 55681,
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQL_DATABASE,
+  port: process.env.MYSQLPORT,
   connectTimeout: 20000, // Increase timeout to 20 seconds (in milliseconds)
   acquireTimeout: 20000 // Increase acquire timeout to 20 seconds (in milliseconds)
 });
@@ -41,9 +45,9 @@ pool.getConnection((err, connection) => {
   connection.release(); // Release the connection
 });
 
-// Default route
-app.get("/", (req, res) => {
-  res.send("Welcome to the CaseInfo API");
+// Example endpoint
+app.get('/', (req, res) => {
+  res.send('Hello from Express with Railway MySQL!');
 });
 
 // Route to create a new user (signup)
