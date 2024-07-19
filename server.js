@@ -3,6 +3,9 @@ import mysql from "mysql2"; // Update import to mysql2
 import bodyParser from "body-parser";
 import cors from "cors";
 import bcrypt from "bcryptjs";
+import dotenv from "dotenv"; // Import dotenv for managing environment variables
+
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -12,10 +15,11 @@ app.use(cors());
 
 const pool = mysql.createPool({
   connectionLimit: 10,
-  host: "bxwsgdi0seyx0faktnjy-mysql.services.clever-cloud.com",
-  user: "usm5qwq9bipe6qvc",
-  password: "usm5qwq9bipe6qvc", // Replace with your MySQL password
-  database: "bxwsgdi0seyx0faktnjy",
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
